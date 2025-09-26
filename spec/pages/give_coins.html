@@ -1,0 +1,325 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #A78BFA 100%); }
+        .card-shadow { box-shadow: 0 4px 20px rgba(107, 70, 193, 0.15); }
+    </style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#6B46C1",
+        "secondary": "#8B5CF6",
+        "accent": "#A78BFA"
+      },
+      "fontFamily": {}
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-50 min-h-screen">
+
+<div id="mobile-app" class="max-w-sm mx-auto bg-white min-h-screen relative overflow-hidden">
+    
+    <!-- Header -->
+    <div id="header" class="gradient-bg px-6 pt-12 pb-6 text-white relative">
+        <div class="flex justify-between items-center mb-4">
+            <button id="back-btn" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-arrow-left text-white text-lg"></i>
+            </button>
+            <div class="text-center">
+                <h1 class="text-xl font-bold">Send Coins</h1>
+                <p class="text-sm text-white/80">Share appreciation</p>
+            </div>
+            <div class="w-10 h-10"></div>
+        </div>
+        
+        <!-- Available Coins -->
+        <div id="available-coins" class="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
+            <div class="text-center">
+                <p class="text-sm text-white/80 mb-2">Available to Give</p>
+                <div class="flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-coins text-yellow-300 text-xl"></i>
+                    <span class="text-3xl font-bold">15</span>
+                    <span class="text-lg text-white/80">coins</span>
+                </div>
+                <p class="text-xs text-white/60 mt-1">Resets monthly</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Form -->
+    <div id="send-form" class="px-6 -mt-8 relative z-10 mb-6">
+        
+        <!-- Recipient Selection -->
+        <div id="recipient-section" class="bg-white card-shadow rounded-2xl p-6 mb-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Recipient</h3>
+            
+            <!-- Employee ID Input -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Employee ID</label>
+                <div class="relative">
+                    <input type="text" id="employee-id" placeholder="Enter employee ID (e.g. EMP001)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+                    <button id="search-btn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Selected Employee Display -->
+            <div id="selected-employee" class="hidden bg-gray-50 rounded-xl p-4 border-2 border-primary/20">
+                <div class="flex items-center gap-3">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="w-12 h-12 rounded-full">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-800">Alex Thompson</h4>
+                        <p class="text-sm text-gray-500">Engineering Department</p>
+                        <p class="text-xs text-gray-400">EMP001</p>
+                    </div>
+                    <button id="clear-selection" class="text-gray-400 hover:text-gray-600">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coin Amount -->
+        <div id="coin-amount-section" class="bg-white card-shadow rounded-2xl p-6 mb-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Coin Amount</h3>
+            
+            <!-- Amount Selector -->
+            <div class="grid grid-cols-4 gap-3 mb-4">
+                <button class="coin-amount-btn bg-gray-100 hover:bg-primary hover:text-white text-gray-700 font-semibold py-3 px-4 rounded-xl transition-colors" data-amount="1">1</button>
+                <button class="coin-amount-btn bg-gray-100 hover:bg-primary hover:text-white text-gray-700 font-semibold py-3 px-4 rounded-xl transition-colors" data-amount="5">5</button>
+                <button class="coin-amount-btn bg-gray-100 hover:bg-primary hover:text-white text-gray-700 font-semibold py-3 px-4 rounded-xl transition-colors" data-amount="10">10</button>
+                <button class="coin-amount-btn bg-gray-100 hover:bg-primary hover:text-white text-gray-700 font-semibold py-3 px-4 rounded-xl transition-colors" data-amount="15">15</button>
+            </div>
+            
+            <!-- Custom Amount Input -->
+            <div class="relative">
+                <input type="number" id="custom-amount" min="1" max="15" placeholder="Enter custom amount" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+            </div>
+            
+            <!-- Selected Amount Display -->
+            <div id="selected-amount" class="mt-4 p-3 bg-primary/10 rounded-xl text-center hidden">
+                <p class="text-sm text-gray-600">Sending</p>
+                <p class="text-2xl font-bold text-primary"><span id="amount-display">0</span> coins</p>
+            </div>
+        </div>
+
+        <!-- Appreciation Message -->
+        <div id="message-section" class="bg-white card-shadow rounded-2xl p-6 mb-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Appreciation Message</h3>
+            <p class="text-sm text-gray-500 mb-3">Add a personal note (optional)</p>
+            
+            <textarea id="appreciation-message" rows="4" placeholder="Write your appreciation message here..." class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none"></textarea>
+            
+            <div class="flex justify-between items-center mt-3">
+                <span class="text-xs text-gray-400"><span id="char-count">0</span>/200 characters</span>
+                
+                <!-- Anonymous Toggle -->
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600">Anonymous</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="anonymous-toggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Send Button -->
+        <button id="send-coins-btn" disabled="" class="w-full gradient-bg text-white font-semibold py-4 rounded-2xl opacity-50 cursor-not-allowed transition-all">
+            <i class="fa-solid fa-paper-plane mr-2"></i>
+            Send Coins
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
+        <div class="grid grid-cols-4 py-2">
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-house text-lg mb-1"></i>
+                <span class="text-xs font-medium">Home</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-primary">
+                <i class="fa-solid fa-paper-plane text-lg mb-1"></i>
+                <span class="text-xs font-medium">Give</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-gift text-lg mb-1"></i>
+                <span class="text-xs font-medium">Rewards</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-user text-lg mb-1"></i>
+                <span class="text-xs font-medium">Profile</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const employeeIdInput = document.getElementById('employee-id');
+    const selectedEmployeeDiv = document.getElementById('selected-employee');
+    const customAmountInput = document.getElementById('custom-amount');
+    const coinAmountBtns = document.querySelectorAll('.coin-amount-btn');
+    const selectedAmountDiv = document.getElementById('selected-amount');
+    const amountDisplay = document.getElementById('amount-display');
+    const appreciationMessage = document.getElementById('appreciation-message');
+    const charCount = document.getElementById('char-count');
+    const sendBtn = document.getElementById('send-coins-btn');
+    const backBtn = document.getElementById('back-btn');
+    const searchBtn = document.getElementById('search-btn');
+    const clearBtn = document.getElementById('clear-selection');
+    
+    let selectedAmount = 0;
+    let recipientSelected = false;
+
+    // Back button
+    backBtn.addEventListener('click', function() {
+        window.history.back();
+    });
+
+    // Employee search
+    function searchEmployee() {
+        const empId = employeeIdInput.value.trim();
+        if (empId) {
+            selectedEmployeeDiv.classList.remove('hidden');
+            recipientSelected = true;
+            updateSendButton();
+        }
+    }
+
+    searchBtn.addEventListener('click', searchEmployee);
+    employeeIdInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchEmployee();
+        }
+    });
+
+    // Clear selection
+    clearBtn.addEventListener('click', function() {
+        selectedEmployeeDiv.classList.add('hidden');
+        employeeIdInput.value = '';
+        recipientSelected = false;
+        updateSendButton();
+    });
+
+    // Coin amount selection
+    coinAmountBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const amount = parseInt(this.dataset.amount);
+            selectAmount(amount);
+            customAmountInput.value = '';
+            
+            coinAmountBtns.forEach(b => b.classList.remove('bg-primary', 'text-white'));
+            coinAmountBtns.forEach(b => b.classList.add('bg-gray-100', 'text-gray-700'));
+            this.classList.remove('bg-gray-100', 'text-gray-700');
+            this.classList.add('bg-primary', 'text-white');
+        });
+    });
+
+    // Custom amount input
+    customAmountInput.addEventListener('input', function() {
+        const amount = parseInt(this.value);
+        if (amount && amount > 0 && amount <= 15) {
+            selectAmount(amount);
+            coinAmountBtns.forEach(b => b.classList.remove('bg-primary', 'text-white'));
+            coinAmountBtns.forEach(b => b.classList.add('bg-gray-100', 'text-gray-700'));
+        }
+    });
+
+    function selectAmount(amount) {
+        selectedAmount = amount;
+        amountDisplay.textContent = amount;
+        selectedAmountDiv.classList.remove('hidden');
+        updateSendButton();
+    }
+
+    // Message character count
+    appreciationMessage.addEventListener('input', function() {
+        const count = this.value.length;
+        charCount.textContent = count;
+        if (count > 200) {
+            this.value = this.value.substring(0, 200);
+            charCount.textContent = 200;
+        }
+    });
+
+    // Update send button state
+    function updateSendButton() {
+        if (recipientSelected && selectedAmount > 0) {
+            sendBtn.disabled = false;
+            sendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            sendBtn.classList.add('hover:scale-105');
+        } else {
+            sendBtn.disabled = true;
+            sendBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            sendBtn.classList.remove('hover:scale-105');
+        }
+    }
+
+    // Send coins
+    sendBtn.addEventListener('click', function() {
+        if (!this.disabled) {
+            const isAnonymous = document.getElementById('anonymous-toggle').checked;
+            const message = appreciationMessage.value.trim();
+            
+            // Show success feedback
+            this.innerHTML = '<i class="fa-solid fa-check mr-2"></i>Sent!';
+            this.classList.add('bg-green-500');
+            
+            setTimeout(() => {
+                window.history.back();
+            }, 1500);
+        }
+    });
+
+    // Bottom navigation
+    const navButtons = document.querySelectorAll('#bottom-nav button');
+    navButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            if (index === 0) {
+                // Navigate to home
+                window.location.href = '/';
+            }
+        });
+    });
+});
+</script>
+
+
+</body></html>

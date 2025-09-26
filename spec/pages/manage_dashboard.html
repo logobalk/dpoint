@@ -1,0 +1,382 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #A78BFA 100%); }
+        .card-shadow { box-shadow: 0 4px 20px rgba(107, 70, 193, 0.15); }
+    </style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#6B46C1",
+        "secondary": "#8B5CF6",
+        "accent": "#A78BFA"
+      },
+      "fontFamily": {}
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-50 min-h-screen">
+
+<div id="mobile-app" class="max-w-sm mx-auto bg-white min-h-screen relative overflow-hidden">
+    
+    <!-- Header -->
+    <div id="header" class="gradient-bg px-6 pt-12 pb-6 text-white relative">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <button onclick="goBack()" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-left text-white text-lg"></i>
+                </button>
+                <div>
+                    <h1 class="text-xl font-bold">Reward Management</h1>
+                    <p class="text-sm text-white/80">Admin Panel</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-bell text-sm"></i>
+                </div>
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-8 h-8 rounded-full border-2 border-white/30">
+            </div>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div id="stats-overview" class="bg-white/20 backdrop-blur-sm rounded-2xl p-4 mb-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="text-center">
+                    <p class="text-sm text-white/80 mb-1">Total Rewards</p>
+                    <div class="flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-gift text-yellow-300 text-lg"></i>
+                        <span class="text-2xl font-bold">24</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-sm text-white/80 mb-1">Active</p>
+                    <div class="flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-circle text-green-300 text-lg"></i>
+                        <span class="text-2xl font-bold">18</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div id="action-buttons" class="px-6 -mt-8 relative z-10 mb-6">
+        <button onclick="showAddRewardModal()" class="w-full bg-white card-shadow rounded-2xl p-4 text-center hover:scale-105 transition-transform mb-3">
+            <div class="flex items-center justify-center gap-3">
+                <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-plus text-white text-lg"></i>
+                </div>
+                <div class="text-left">
+                    <h3 class="font-semibold text-gray-800 mb-1">Add New Reward</h3>
+                    <p class="text-xs text-gray-500">Create a new reward for the catalog</p>
+                </div>
+            </div>
+        </button>
+    </div>
+
+    <!-- Filter and Search -->
+    <div id="filter-search" class="px-6 mb-6">
+        <div class="flex gap-3 mb-4">
+            <div class="flex-1 relative">
+                <input type="text" placeholder="Search rewards..." class="w-full bg-white card-shadow rounded-xl px-4 py-3 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+            </div>
+            <button onclick="toggleFilter()" class="bg-white card-shadow rounded-xl px-4 py-3 flex items-center justify-center">
+                <i class="fa-solid fa-filter text-gray-600 text-sm"></i>
+            </button>
+        </div>
+        
+        <div id="filter-tabs" class="flex gap-2">
+            <button class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">All</button>
+            <button class="bg-gray-200 text-gray-600 px-4 py-2 rounded-full text-sm font-medium">Active</button>
+            <button class="bg-gray-200 text-gray-600 px-4 py-2 rounded-full text-sm font-medium">Inactive</button>
+        </div>
+    </div>
+
+    <!-- Rewards List -->
+    <div id="rewards-list" class="px-6 mb-20">
+        <div class="space-y-4">
+            <!-- Reward Item 1 -->
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-coffee text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">Coffee Voucher</h3>
+                            <div class="flex gap-2">
+                                <button onclick="editReward(1)" class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-edit text-blue-600 text-sm"></i>
+                                </button>
+                                <button onclick="deleteReward(1)" class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-trash text-red-600 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Premium coffee voucher at local café</p>
+                        <div class="flex justify-between items-center">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">50 Points</span>
+                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-medium">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reward Item 2 -->
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-utensils text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">Lunch Voucher</h3>
+                            <div class="flex gap-2">
+                                <button onclick="editReward(2)" class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-edit text-blue-600 text-sm"></i>
+                                </button>
+                                <button onclick="deleteReward(2)" class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-trash text-red-600 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Free lunch at company cafeteria</p>
+                        <div class="flex justify-between items-center">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">100 Points</span>
+                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-medium">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reward Item 3 -->
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-car text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">Parking Spot</h3>
+                            <div class="flex gap-2">
+                                <button onclick="editReward(3)" class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-edit text-blue-600 text-sm"></i>
+                                </button>
+                                <button onclick="deleteReward(3)" class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-trash text-red-600 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Reserved parking spot for one month</p>
+                        <div class="flex justify-between items-center">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">200 Points</span>
+                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-medium">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reward Item 4 -->
+            <div class="bg-white card-shadow rounded-xl p-4 opacity-60">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-gift text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">Gift Card</h3>
+                            <div class="flex gap-2">
+                                <button onclick="editReward(4)" class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-edit text-blue-600 text-sm"></i>
+                                </button>
+                                <button onclick="deleteReward(4)" class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-trash text-red-600 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">$25 Amazon gift card</p>
+                        <div class="flex justify-between items-center">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">500 Points</span>
+                            <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium">Inactive</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Reward Modal -->
+    <div id="reward-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-end justify-center min-h-screen">
+            <div class="bg-white rounded-t-3xl w-full max-w-sm max-h-[80vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Add New Reward</h2>
+                        <button onclick="closeModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-times text-gray-600 text-sm"></i>
+                        </button>
+                    </div>
+                    
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Reward Name</label>
+                            <input type="text" placeholder="Enter reward name" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea placeholder="Enter reward description" class="w-full border border-gray-200 rounded-xl px-4 py-3 h-20 resize-none focus:outline-none focus:ring-2 focus:ring-primary/20"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Point Cost</label>
+                            <input type="number" placeholder="Enter point cost" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <select class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20">
+                                <option>Food &amp; Beverage</option>
+                                <option>Transportation</option>
+                                <option>Gift Cards</option>
+                                <option>Experiences</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="status" value="active" class="text-primary focus:ring-primary" checked="">
+                                    <span class="ml-2 text-sm text-gray-700">Active</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="status" value="inactive" class="text-primary focus:ring-primary">
+                                    <span class="ml-2 text-sm text-gray-700">Inactive</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3 pt-4">
+                            <button type="button" onclick="closeModal()" class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-medium">Cancel</button>
+                            <button type="submit" class="flex-1 gradient-bg text-white py-3 rounded-xl font-medium">Save Reward</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
+        <div class="grid grid-cols-4 py-2">
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-house text-lg mb-1"></i>
+                <span class="text-xs font-medium">Home</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-chart-bar text-lg mb-1"></i>
+                <span class="text-xs font-medium">Analytics</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-primary">
+                <i class="fa-solid fa-gift text-lg mb-1"></i>
+                <span class="text-xs font-medium">Rewards</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-cog text-lg mb-1"></i>
+                <span class="text-xs font-medium">Settings</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function goBack() {
+    console.log('Navigate back to admin dashboard');
+}
+
+function showAddRewardModal() {
+    document.getElementById('reward-modal').classList.remove('hidden');
+}
+
+function closeModal() {
+    document.getElementById('reward-modal').classList.add('hidden');
+}
+
+function editReward(id) {
+    document.getElementById('reward-modal').classList.remove('hidden');
+    console.log('Edit reward with ID:', id);
+}
+
+function deleteReward(id) {
+    if (confirm('Are you sure you want to delete this reward?')) {
+        console.log('Delete reward with ID:', id);
+    }
+}
+
+function toggleFilter() {
+    console.log('Toggle filter options');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const filterTabs = document.querySelectorAll('#filter-tabs button');
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            filterTabs.forEach(t => {
+                t.classList.remove('bg-primary', 'text-white');
+                t.classList.add('bg-gray-200', 'text-gray-600');
+            });
+            this.classList.remove('bg-gray-200', 'text-gray-600');
+            this.classList.add('bg-primary', 'text-white');
+        });
+    });
+
+    const navButtons = document.querySelectorAll('#bottom-nav button');
+    navButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            navButtons.forEach(b => b.classList.remove('text-primary'));
+            navButtons.forEach(b => b.classList.add('text-gray-400'));
+            this.classList.remove('text-gray-400');
+            this.classList.add('text-primary');
+        });
+    });
+});
+</script>
+
+
+</body></html>
