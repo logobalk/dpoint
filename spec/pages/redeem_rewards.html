@@ -1,0 +1,338 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #A78BFA 100%); }
+        .card-shadow { box-shadow: 0 4px 20px rgba(107, 70, 193, 0.15); }
+    </style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#6B46C1",
+        "secondary": "#8B5CF6",
+        "accent": "#A78BFA"
+      },
+      "fontFamily": {}
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-50 min-h-screen">
+
+<div id="mobile-app" class="max-w-sm mx-auto bg-white min-h-screen relative overflow-hidden">
+    
+    <!-- Header -->
+    <div id="header" class="gradient-bg px-6 pt-12 pb-6 text-white relative">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <button class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-left text-white text-sm"></i>
+                </button>
+                <div>
+                    <h1 class="text-xl font-bold">Rewards</h1>
+                    <p class="text-sm text-white/80">Redeem your points</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-search text-sm"></i>
+                </div>
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-8 h-8 rounded-full border-2 border-white/30">
+            </div>
+        </div>
+        
+        <!-- Points Balance -->
+        <div id="points-balance" class="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-white/80 mb-1">Available Points</p>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-coins text-yellow-300 text-lg"></i>
+                        <span class="text-2xl font-bold">1,247</span>
+                        <span class="text-sm text-white/80">Points</span>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-white/80 mb-1">Redeemed</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-semibold">3</span>
+                        <span class="text-sm text-white/80">this month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Filter -->
+    <div id="categories-filter" class="px-6 -mt-4 relative z-10 mb-6">
+        <div class="bg-white card-shadow rounded-2xl p-4">
+            <div class="flex gap-2 overflow-x-auto scrollbar-hide">
+                <button class="px-4 py-2 gradient-bg text-white rounded-full text-sm font-medium whitespace-nowrap">
+                    All Rewards
+                </button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">
+                    Food &amp; Drinks
+                </button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">
+                    Electronics
+                </button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">
+                    Experiences
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Rewards -->
+    <div id="featured-rewards" class="px-6 mb-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Featured Rewards</h2>
+        
+        <div class="bg-white card-shadow rounded-2xl p-4 mb-4">
+            <div class="flex items-center gap-4">
+                <img class="w-16 h-16 rounded-xl object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/dac1c04eb7-4ad1bc137dcbd805673b.png" alt="premium coffee gift card voucher modern design">
+                <div class="flex-1">
+                    <h3 class="font-semibold text-gray-800 mb-1">Premium Coffee Voucher</h3>
+                    <p class="text-xs text-gray-500 mb-2">Starbucks Gift Card - $25</p>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-coins text-yellow-500 text-sm"></i>
+                        <span class="text-sm font-bold text-primary">250 Points</span>
+                    </div>
+                </div>
+                <button class="px-4 py-2 gradient-bg text-white rounded-xl text-sm font-medium hover:scale-105 transition-transform">
+                    Redeem
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rewards Catalog -->
+    <div id="rewards-catalog" class="px-6 mb-24">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-gray-800">All Rewards</h2>
+            <button class="text-primary text-sm font-medium flex items-center gap-1">
+                <i class="fa-solid fa-filter text-xs"></i>
+                Filter
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Reward Card 1 -->
+            <div id="reward-card-1" class="bg-white card-shadow rounded-2xl p-4">
+                <img class="w-full h-24 rounded-xl object-cover mb-3" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/87447114fa-de9055d7583ddae9172c.png" alt="amazon gift card modern design colorful">
+                <h3 class="font-semibold text-gray-800 text-sm mb-1">Amazon Gift Card</h3>
+                <p class="text-xs text-gray-500 mb-3">$50 Value</p>
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1">
+                        <i class="fa-solid fa-coins text-yellow-500 text-xs"></i>
+                        <span class="text-sm font-bold text-primary">500</span>
+                    </div>
+                    <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Available</span>
+                </div>
+                <button class="w-full py-2 gradient-bg text-white rounded-xl text-sm font-medium hover:scale-105 transition-transform">
+                    Redeem
+                </button>
+            </div>
+
+            <!-- Reward Card 2 -->
+            <div id="reward-card-2" class="bg-white card-shadow rounded-2xl p-4">
+                <img class="w-full h-24 rounded-xl object-cover mb-3" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/714d0225c5-7d86621c2e495b7a5030.png" alt="wireless bluetooth headphones premium modern">
+                <h3 class="font-semibold text-gray-800 text-sm mb-1">Wireless Headphones</h3>
+                <p class="text-xs text-gray-500 mb-3">Sony WH-1000XM4</p>
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1">
+                        <i class="fa-solid fa-coins text-yellow-500 text-xs"></i>
+                        <span class="text-sm font-bold text-primary">1,200</span>
+                    </div>
+                    <span class="text-xs text-orange-600 bg-orange-100 px-2 py-1 rounded-full">2 left</span>
+                </div>
+                <button class="w-full py-2 bg-gray-200 text-gray-400 rounded-xl text-sm font-medium cursor-not-allowed">
+                    Need 1,200
+                </button>
+            </div>
+
+            <!-- Reward Card 3 -->
+            <div id="reward-card-3" class="bg-white card-shadow rounded-2xl p-4">
+                <img class="w-full h-24 rounded-xl object-cover mb-3" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/2795d48735-cd65243e9346e1e9545f.png" alt="spa wellness massage voucher relaxing">
+                <h3 class="font-semibold text-gray-800 text-sm mb-1">Spa Day Voucher</h3>
+                <p class="text-xs text-gray-500 mb-3">Full Day Experience</p>
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1">
+                        <i class="fa-solid fa-coins text-yellow-500 text-xs"></i>
+                        <span class="text-sm font-bold text-primary">800</span>
+                    </div>
+                    <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Available</span>
+                </div>
+                <button class="w-full py-2 gradient-bg text-white rounded-xl text-sm font-medium hover:scale-105 transition-transform">
+                    Redeem
+                </button>
+            </div>
+
+            <!-- Reward Card 4 -->
+            <div id="reward-card-4" class="bg-white card-shadow rounded-2xl p-4">
+                <img class="w-full h-24 rounded-xl object-cover mb-3" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a8c1ded44f-bc0481228241612a8295.png" alt="movie theater cinema tickets entertainment">
+                <h3 class="font-semibold text-gray-800 text-sm mb-1">Movie Tickets</h3>
+                <p class="text-xs text-gray-500 mb-3">2 Premium Seats</p>
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1">
+                        <i class="fa-solid fa-coins text-yellow-500 text-xs"></i>
+                        <span class="text-sm font-bold text-primary">150</span>
+                    </div>
+                    <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Available</span>
+                </div>
+                <button class="w-full py-2 gradient-bg text-white rounded-xl text-sm font-medium hover:scale-105 transition-transform">
+                    Redeem
+                </button>
+            </div>
+
+            <!-- Reward Card 5 -->
+            <div id="reward-card-5" class="bg-white card-shadow rounded-2xl p-4">
+                <img class="w-full h-24 rounded-xl object-cover mb-3" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/98e8c6d1f4-5cc55a2352b62a509606.png" alt="fitness gym membership card modern">
+                <h3 class="font-semibold text-gray-800 text-sm mb-1">Gym Membership</h3>
+                <p class="text-xs text-gray-500 mb-3">1 Month Pass</p>
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1">
+                        <i class="fa-solid fa-coins text-yellow-500 text-xs"></i>
+                        <span class="text-sm font-bold text-primary">600</span>
+                    </div>
+                    <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Available</span>
+                </div>
+                <button class="w-full py-2 gradient-bg text-white rounded-xl text-sm font-medium hover:scale-105 transition-transform">
+                    Redeem
+                </button>
+            </div>
+
+            <!-- Reward Card 6 -->
+            <div id="reward-card-6" class="bg-white card-shadow rounded-2xl p-4">
+                <img class="w-full h-24 rounded-xl object-cover mb-3" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/e9ab44aae3-c05df6351679bfc7ebfc.png" alt="restaurant dining voucher fine dining">
+                <h3 class="font-semibold text-gray-800 text-sm mb-1">Dinner Voucher</h3>
+                <p class="text-xs text-gray-500 mb-3">2-Person Meal</p>
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-1">
+                        <i class="fa-solid fa-coins text-yellow-500 text-xs"></i>
+                        <span class="text-sm font-bold text-primary">400</span>
+                    </div>
+                    <span class="text-xs text-red-600 bg-red-100 px-2 py-1 rounded-full">Out of stock</span>
+                </div>
+                <button class="w-full py-2 bg-gray-200 text-gray-400 rounded-xl text-sm font-medium cursor-not-allowed">
+                    Unavailable
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
+        <div class="grid grid-cols-4 py-2">
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-house text-lg mb-1"></i>
+                <span class="text-xs font-medium">Home</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-paper-plane text-lg mb-1"></i>
+                <span class="text-xs font-medium">Give</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-primary">
+                <i class="fa-solid fa-gift text-lg mb-1"></i>
+                <span class="text-xs font-medium">Rewards</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-user text-lg mb-1"></i>
+                <span class="text-xs font-medium">Profile</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Category filter functionality
+    const categoryButtons = document.querySelectorAll('#categories-filter button');
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            categoryButtons.forEach(b => {
+                b.classList.remove('gradient-bg', 'text-white');
+                b.classList.add('bg-gray-100', 'text-gray-600');
+            });
+            this.classList.remove('bg-gray-100', 'text-gray-600');
+            this.classList.add('gradient-bg', 'text-white');
+        });
+    });
+
+    // Redeem button functionality
+    const redeemButtons = document.querySelectorAll('button:contains("Redeem")');
+    redeemButtons.forEach(btn => {
+        if (btn.textContent.includes('Redeem')) {
+            btn.addEventListener('click', function() {
+                const card = this.closest('[id^="reward-card"]');
+                const rewardName = card.querySelector('h3').textContent;
+                const pointCost = card.querySelector('.text-primary').textContent;
+                
+                if (confirm(`Redeem ${rewardName} for ${pointCost}?`)) {
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg z-50';
+                    successMsg.textContent = 'Reward redeemed successfully!';
+                    document.body.appendChild(successMsg);
+                    
+                    setTimeout(() => {
+                        successMsg.remove();
+                    }, 3000);
+                }
+            });
+        }
+    });
+
+    // Back button functionality
+    const backButton = document.querySelector('#header button');
+    backButton.addEventListener('click', function() {
+        // Navigate back to home
+        console.log('Navigate back to home');
+    });
+
+    // Bottom navigation handlers
+    const navButtons = document.querySelectorAll('#bottom-nav button');
+    navButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            navButtons.forEach(b => {
+                b.classList.remove('text-primary');
+                b.classList.add('text-gray-400');
+            });
+            this.classList.remove('text-gray-400');
+            this.classList.add('text-primary');
+        });
+    });
+});
+</script>
+
+
+</body></html>

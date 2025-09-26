@@ -1,0 +1,54 @@
+I need help implementing a complete authentication system for a Next.js web application starter kit that will be used as a foundation for future projects. This should include login functionality, protected routes, and a basic dashboard.
+
+**Project Context:**
+- This is a Next.js application using TypeScript and the App Router pattern
+- The app serves as a reusable starter kit template for future projects
+- Authentication should use Jose library
+
+**Reference Design Files:**
+Please examine these UI reference files to understand the design requirements:
+- `ui-examples/example-login.html` - Login page design and layout reference
+- `ui-examples/example-dashboard.html` - Dashboard design and layout reference
+
+**Implementation Requirements:**
+
+1. **Design System Setup:**
+   - Create a centralized design token system extracted from the reference HTML files
+   - Use Shadcn UI library as the component foundation
+   - Implement app-wide design tokens for consistent styling
+   - Ensure responsive design across all breakpoints
+   - Use modern gradient backgrounds as preferred
+
+2. **Authentication System:**
+   - Implement secure authentication mechanism
+   - Create protected route middleware
+   - Handle login/logout state management
+   - Redirect unauthenticated users to login page
+   - There are 2 types of user: normal user and admin
+
+3. **Login Page (`/login`):**
+   - Split-screen layout with left and right panes
+   - Left pane: Display company logo (`public/logo.png`) with title "SCB Tech X" and subtitle "Web Starter Kit"
+   - Right pane: Login form card matching the design from `example-login.html`
+   - Include only email/password fields and login button (exclude forgot password and sign-up features)
+   - Form validation and error handling
+
+4. **Navigation Bar (for authenticated users):**
+   - Persistent navbar across all authenticated pages
+   - Left section: Company logo + "SCB Tech X" title
+   - Center section: Navigation menu with single "Dashboard" item
+   - Right section: User avatar with dropdown context menu containing "Logout" option
+
+5. **Dashboard Page (`/dashboard`):**
+   - Protected route requiring authentication
+   - Display "Hello World" text with gradient color styling
+   - Use the layout structure from `example-dashboard.html` as reference
+
+**Technical Requirements:**
+- Follow Next.js App Router best practices
+- Implement proper TypeScript types
+- Use the established design token system consistently
+- Ensure build success and include tests for authentication flows
+- Structure code for maintainability and reusability
+
+Please start by examining the reference UI files to understand the design patterns, then create the design token system before implementing the authentication and page components.
