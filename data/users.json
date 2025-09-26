@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "user_standard_001",
+      "email": "user@scbtechx.io",
+      "name": "Standard User",
+      "role": "user",
+      "passwordHash": "$2b$12$tcfxEVxI4xz4eT3Ei1EkbeltLXZ9BUHl5u/sVUmMCd5PsJkHE34ku",
+      "createdAt": "2025-09-11T02:34:59.003Z",
+      "updatedAt": "2025-09-11T02:34:59.003Z",
+      "isActive": true
+    },
+    {
+      "id": "user_admin_001",
+      "email": "admin@scbtechx.io",
+      "name": "Admin User",
+      "role": "admin",
+      "passwordHash": "$2b$12$R8dmh3qoFERv/xt7cFgw5Oa/fz88nkEivXQLjxcaHT1m90i/Iuuvy",
+      "createdAt": "2025-09-11T02:34:59.003Z",
+      "updatedAt": "2025-09-11T02:34:59.003Z",
+      "isActive": true
+    }
+  ],
+  "lastUpdated": "2025-09-11T02:34:59.003Z"
+}

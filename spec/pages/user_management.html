@@ -1,0 +1,327 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #A78BFA 100%); }
+        .card-shadow { box-shadow: 0 4px 20px rgba(107, 70, 193, 0.15); }
+    </style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#6B46C1",
+        "secondary": "#8B5CF6",
+        "accent": "#A78BFA"
+      },
+      "fontFamily": {}
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-50 min-h-screen">
+
+<div id="mobile-app" class="max-w-sm mx-auto bg-white min-h-screen relative overflow-hidden">
+    
+    <!-- Header -->
+    <div id="header" class="gradient-bg px-6 pt-12 pb-6 text-white relative">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <button class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-left text-white text-lg"></i>
+                </button>
+                <div>
+                    <h1 class="text-xl font-bold">Admin Panel</h1>
+                    <p class="text-sm text-white/80">Employee Management</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-bell text-sm"></i>
+                </div>
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-8 h-8 rounded-full border-2 border-white/30">
+            </div>
+        </div>
+        
+        <!-- Admin Stats -->
+        <div id="admin-stats" class="bg-white/20 backdrop-blur-sm rounded-2xl p-4 mb-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="text-center">
+                    <p class="text-2xl font-bold">127</p>
+                    <p class="text-sm text-white/80">Total Employees</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-2xl font-bold">15</p>
+                    <p class="text-sm text-white/80">Active Today</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter -->
+    <div id="search-section" class="px-6 -mt-8 relative z-10 mb-6">
+        <div class="bg-white card-shadow rounded-2xl p-4">
+            <div class="flex gap-3 mb-3">
+                <div class="flex-1 relative">
+                    <input type="text" placeholder="Search employees..." class="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <button class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white">
+                    <i class="fa-solid fa-filter"></i>
+                </button>
+            </div>
+            <div class="flex gap-2">
+                <button class="px-3 py-1 bg-primary text-white rounded-full text-xs">All</button>
+                <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">Active</button>
+                <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">Inactive</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div id="admin-actions" class="px-6 mb-6">
+        <div class="grid grid-cols-2 gap-3">
+            <button class="bg-white card-shadow rounded-2xl p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-user-plus text-white text-lg"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800 mb-1">Add Employee</h3>
+                <p class="text-xs text-gray-500">Create new profile</p>
+            </button>
+            
+            <button class="bg-white card-shadow rounded-2xl p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-upload text-white text-lg"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800 mb-1">Bulk Import</h3>
+                <p class="text-xs text-gray-500">Upload CSV file</p>
+            </button>
+        </div>
+    </div>
+
+    <!-- Employee List -->
+    <div id="employee-list" class="px-6 mb-20">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-gray-800">Employee Profiles</h2>
+            <button class="text-primary text-sm font-medium">Sort By</button>
+        </div>
+        
+        <div class="space-y-3">
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="w-12 h-12 rounded-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-sm font-medium text-gray-800">Alex Thompson</p>
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        </div>
+                        <p class="text-xs text-gray-500">ID: EMP001 • Engineering</p>
+                        <p class="text-xs text-gray-400">alex.thompson@company.com</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-edit text-blue-600 text-xs"></i>
+                        </button>
+                        <button class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-trash text-red-600 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-12 h-12 rounded-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-sm font-medium text-gray-800">Emma Wilson</p>
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        </div>
+                        <p class="text-xs text-gray-500">ID: EMP002 • Marketing</p>
+                        <p class="text-xs text-gray-400">emma.wilson@company.com</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-edit text-blue-600 text-xs"></i>
+                        </button>
+                        <button class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-trash text-red-600 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" class="w-12 h-12 rounded-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-sm font-medium text-gray-800">David Lee</p>
+                            <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                        </div>
+                        <p class="text-xs text-gray-500">ID: EMP003 • Sales</p>
+                        <p class="text-xs text-gray-400">david.lee@company.com</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-edit text-blue-600 text-xs"></i>
+                        </button>
+                        <button class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-trash text-red-600 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" class="w-12 h-12 rounded-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-sm font-medium text-gray-800">Michael Chen</p>
+                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                        </div>
+                        <p class="text-xs text-gray-500">ID: EMP004 • HR</p>
+                        <p class="text-xs text-gray-400">michael.chen@company.com</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-edit text-blue-600 text-xs"></i>
+                        </button>
+                        <button class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-trash text-red-600 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg" class="w-12 h-12 rounded-full">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-sm font-medium text-gray-800">Sarah Johnson</p>
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        </div>
+                        <p class="text-xs text-gray-500">ID: EMP005 • Design</p>
+                        <p class="text-xs text-gray-400">sarah.johnson@company.com</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-edit text-blue-600 text-xs"></i>
+                        </button>
+                        <button class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-trash text-red-600 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
+        <div class="grid grid-cols-4 py-2">
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-chart-line text-lg mb-1"></i>
+                <span class="text-xs font-medium">Analytics</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-primary">
+                <i class="fa-solid fa-users text-lg mb-1"></i>
+                <span class="text-xs font-medium">Users</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-gift text-lg mb-1"></i>
+                <span class="text-xs font-medium">Rewards</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-cog text-lg mb-1"></i>
+                <span class="text-xs font-medium">Settings</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button id="fab-add-employee" class="fixed bottom-20 right-6 w-14 h-14 gradient-bg rounded-full shadow-lg flex items-center justify-center text-white hover:scale-110 transition-transform z-20">
+        <i class="fa-solid fa-user-plus text-xl"></i>
+    </button>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addEmployeeBtn = document.querySelector('#admin-actions button:first-child');
+    const bulkImportBtn = document.querySelector('#admin-actions button:last-child');
+    const fabBtn = document.getElementById('fab-add-employee');
+    const editButtons = document.querySelectorAll('.fa-edit');
+    const deleteButtons = document.querySelectorAll('.fa-trash');
+    
+    addEmployeeBtn.addEventListener('click', function() {
+        console.log('Navigate to Add Employee Form');
+    });
+    
+    bulkImportBtn.addEventListener('click', function() {
+        console.log('Open Bulk Import Modal');
+    });
+    
+    fabBtn.addEventListener('click', function() {
+        console.log('Quick Add Employee');
+    });
+    
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log('Edit Employee');
+        });
+    });
+    
+    deleteButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if(confirm('Are you sure you want to remove this employee?')) {
+                console.log('Delete Employee');
+            }
+        });
+    });
+    
+    const navButtons = document.querySelectorAll('#bottom-nav button');
+    navButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            navButtons.forEach(b => b.classList.remove('text-primary'));
+            navButtons.forEach(b => b.classList.add('text-gray-400'));
+            this.classList.remove('text-gray-400');
+            this.classList.add('text-primary');
+        });
+    });
+});
+</script>
+
+
+</body></html>

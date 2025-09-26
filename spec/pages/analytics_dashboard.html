@@ -1,0 +1,458 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #A78BFA 100%); }
+        .card-shadow { box-shadow: 0 4px 20px rgba(107, 70, 193, 0.15); }
+    </style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#6B46C1",
+        "secondary": "#8B5CF6",
+        "accent": "#A78BFA"
+      },
+      "fontFamily": {}
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-50 min-h-screen">
+
+<div id="mobile-app" class="max-w-sm mx-auto bg-white min-h-screen relative overflow-hidden">
+    
+    <!-- Header -->
+    <div id="header" class="gradient-bg px-6 pt-12 pb-6 text-white relative">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <button class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                </button>
+                <div>
+                    <h1 class="text-xl font-bold">Analytics</h1>
+                    <p class="text-sm text-white/80">Employee Metrics</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-filter text-sm"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Filter -->
+    <div id="time-filter" class="px-6 -mt-4 relative z-10 mb-6">
+        <div class="bg-white card-shadow rounded-2xl p-4">
+            <div class="grid grid-cols-3 gap-2">
+                <button class="px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium">Monthly</button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium">Weekly</button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium">Yearly</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Participation Overview -->
+    <div id="participation-overview" class="px-6 mb-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Participation Overview</h2>
+        
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="bg-white card-shadow rounded-2xl p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-users text-green-600 text-sm"></i>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-gray-800">87%</p>
+                        <p class="text-xs text-gray-500">Active Users</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-2xl p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-paper-plane text-blue-600 text-sm"></i>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-gray-800">1,247</p>
+                        <p class="text-xs text-gray-500">Coins Given</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Participation Gauge -->
+        <div class="bg-white card-shadow rounded-2xl p-4">
+            <h3 class="text-sm font-semibold text-gray-800 mb-3">Monthly Participation</h3>
+            <div id="participation-gauge" class="h-48"></div>
+        </div>
+    </div>
+
+    <!-- Recognition Trends -->
+    <div id="recognition-trends" class="px-6 mb-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Recognition Trends</h2>
+        
+        <div class="bg-white card-shadow rounded-2xl p-4 mb-4">
+            <h3 class="text-sm font-semibold text-gray-800 mb-3">Weekly Activity</h3>
+            <div id="weekly-chart" class="h-40"></div>
+        </div>
+
+        <div class="bg-white card-shadow rounded-2xl p-4">
+            <h3 class="text-sm font-semibold text-gray-800 mb-3">Department Breakdown</h3>
+            <div id="department-chart" class="h-48"></div>
+        </div>
+    </div>
+
+    <!-- Recognition Stats -->
+    <div id="recognition-stats" class="px-6 mb-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Recognition Stats</h2>
+        
+        <div class="space-y-3">
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700">Engineering</span>
+                    <span class="text-sm font-bold text-primary">342 coins</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700">Marketing</span>
+                    <span class="text-sm font-bold text-secondary">278 coins</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-secondary h-2 rounded-full" style="width: 69%"></div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700">Sales</span>
+                    <span class="text-sm font-bold text-accent">215 coins</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-accent h-2 rounded-full" style="width: 53%"></div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700">HR</span>
+                    <span class="text-sm font-bold text-orange-500">189 coins</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-orange-500 h-2 rounded-full" style="width: 47%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Performers -->
+    <div id="top-performers" class="px-6 mb-24">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Top Performers</h2>
+        
+        <div class="bg-white card-shadow rounded-2xl p-4">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-crown text-white text-xs"></i>
+                        </div>
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="w-10 h-10 rounded-full">
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-gray-800">Alex Thompson</p>
+                        <p class="text-xs text-gray-500">Most coins given this month</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-primary">156</p>
+                        <p class="text-xs text-gray-400">coins</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-heart text-white text-xs"></i>
+                        </div>
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-10 h-10 rounded-full">
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-gray-800">Emma Wilson</p>
+                        <p class="text-xs text-gray-500">Most appreciated employee</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-green-600">234</p>
+                        <p class="text-xs text-gray-400">received</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-fire text-white text-xs"></i>
+                        </div>
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" class="w-10 h-10 rounded-full">
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-gray-800">David Lee</p>
+                        <p class="text-xs text-gray-500">Longest streak</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-blue-600">21</p>
+                        <p class="text-xs text-gray-400">days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
+        <div class="grid grid-cols-4 py-2">
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-house text-lg mb-1"></i>
+                <span class="text-xs font-medium">Home</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-paper-plane text-lg mb-1"></i>
+                <span class="text-xs font-medium">Give</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-gray-400 hover:text-primary">
+                <i class="fa-solid fa-gift text-lg mb-1"></i>
+                <span class="text-xs font-medium">Rewards</span>
+            </button>
+            
+            <button class="flex flex-col items-center py-3 px-2 text-primary">
+                <i class="fa-solid fa-chart-bar text-lg mb-1"></i>
+                <span class="text-xs font-medium">Analytics</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Participation Gauge Chart
+    Highcharts.chart('participation-gauge', {
+        chart: {
+            type: 'solidgauge',
+            height: 180,
+            backgroundColor: 'transparent'
+        },
+        title: null,
+        credits: {enabled: false},
+        pane: {
+            center: ['50%', '75%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: '#f3f4f6',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+        exporting: {enabled: false},
+        tooltip: {enabled: false},
+        yAxis: {
+            min: 0,
+            max: 100,
+            stops: [
+                [0.1, '#ef4444'],
+                [0.5, '#f59e0b'],
+                [0.9, '#10b981']
+            ],
+            lineWidth: 0,
+            tickWidth: 0,
+            minorTickInterval: null,
+            tickAmount: 2,
+            labels: {
+                y: 16,
+                style: {
+                    fontSize: '12px',
+                    color: '#6b7280'
+                }
+            }
+        },
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true,
+                    style: {
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        color: '#1f2937'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Participation',
+            data: [87],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:24px;color:#6B46C1">{y}%</span><br/><span style="font-size:12px;color:#6b7280">Participation</span></div>'
+            }
+        }]
+    });
+
+    // Weekly Activity Chart
+    Highcharts.chart('weekly-chart', {
+        chart: {
+            type: 'column',
+            height: 160,
+            backgroundColor: 'transparent'
+        },
+        title: null,
+        credits: {enabled: false},
+        legend: {enabled: false},
+        xAxis: {
+            categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            labels: {
+                style: {
+                    fontSize: '11px',
+                    color: '#6b7280'
+                }
+            },
+            lineWidth: 0,
+            tickWidth: 0
+        },
+        yAxis: {
+            title: null,
+            gridLineWidth: 1,
+            gridLineColor: '#f3f4f6',
+            labels: {
+                style: {
+                    fontSize: '11px',
+                    color: '#6b7280'
+                }
+            }
+        },
+        plotOptions: {
+            column: {
+                borderRadius: 4,
+                pointPadding: 0.1,
+                groupPadding: 0.1
+            }
+        },
+        series: [{
+            name: 'Coins Given',
+            data: [45, 67, 89, 123, 98, 34, 21],
+            color: '#6B46C1'
+        }]
+    });
+
+    // Department Breakdown Chart
+    Highcharts.chart('department-chart', {
+        chart: {
+            type: 'pie',
+            height: 200,
+            backgroundColor: 'transparent'
+        },
+        title: null,
+        credits: {enabled: false},
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                    style: {
+                        fontSize: '11px',
+                        color: '#374151'
+                    }
+                },
+                showInLegend: false
+            }
+        },
+        series: [{
+            name: 'Departments',
+            colorByPoint: true,
+            data: [{
+                name: 'Engineering',
+                y: 342,
+                color: '#6B46C1'
+            }, {
+                name: 'Marketing',
+                y: 278,
+                color: '#8B5CF6'
+            }, {
+                name: 'Sales',
+                y: 215,
+                color: '#A78BFA'
+            }, {
+                name: 'HR',
+                y: 189,
+                color: '#f59e0b'
+            }]
+        }]
+    });
+
+    // Time filter functionality
+    const filterButtons = document.querySelectorAll('#time-filter button');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterButtons.forEach(b => {
+                b.classList.remove('bg-primary', 'text-white');
+                b.classList.add('bg-gray-100', 'text-gray-600');
+            });
+            this.classList.remove('bg-gray-100', 'text-gray-600');
+            this.classList.add('bg-primary', 'text-white');
+        });
+    });
+
+    // Navigation handlers
+    const navButtons = document.querySelectorAll('#bottom-nav button');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            navButtons.forEach(b => b.classList.remove('text-primary'));
+            navButtons.forEach(b => b.classList.add('text-gray-400'));
+            this.classList.remove('text-gray-400');
+            this.classList.add('text-primary');
+        });
+    });
+});
+</script>
+
+
+</body></html>

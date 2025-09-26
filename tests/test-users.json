@@ -1,0 +1,35 @@
+{
+  "users": [
+    {
+      "id": "test_user_001",
+      "email": "test@example.com",
+      "name": "Test User",
+      "role": "user",
+      "passwordHash": "$2b$12$rynk0dGyfIbHn2f/TRzSg.Tfs.OwzQQGeH2FU/9iIuBH5QVvrdlpS",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "id": "test_admin_001",
+      "email": "admin@example.com",
+      "name": "Test Admin",
+      "role": "admin",
+      "passwordHash": "$2b$12$rynk0dGyfIbHn2f/TRzSg.Tfs.OwzQQGeH2FU/9iIuBH5QVvrdlpS",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "id": "test_inactive_001",
+      "email": "inactive@example.com",
+      "name": "Inactive User",
+      "role": "user",
+      "passwordHash": "$2b$12$rynk0dGyfIbHn2f/TRzSg.Tfs.OwzQQGeH2FU/9iIuBH5QVvrdlpS",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": false
+    }
+  ],
+  "lastUpdated": "2024-01-01T00:00:00.000Z"
+}
