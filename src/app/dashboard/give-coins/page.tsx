@@ -245,7 +245,7 @@ const GiveCoinsPage: React.FC = () => {
               <input
                 id="employee-search"
                 type="text"
-                placeholder="Type employee ID, name, or department..."
+                placeholder="Type employee ID, name"
                 value={employeeId}
                 onChange={(e) => handleSearchInputChange(e.target.value)}
                 onKeyDown={handleKeyDown}
