@@ -1,7 +1,7 @@
 {
-  "name": "d-point-platform",
+  "name": "d-wallet-platform",
   "version": "1.0.0",
-  "description": "D-Point Peer Recognition Platform - Next.js TypeScript Application",
+  "description": "D-Wallet Digital Wallet Platform - Next.js TypeScript Application",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

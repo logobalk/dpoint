@@ -1,20 +1,22 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Header } from '@/components/ui/Header';
 import { BottomNavigation, NavigationItem } from '@/components/ui/BottomNavigation';
-import { 
-  userService, 
-  walletService, 
-  rewardService 
+import {
+  userService,
+  walletService,
+  rewardService
 } from '@/lib/services/mockApiService';
 import { User, UserWallet, Reward, RedeemRewardForm } from '@/lib/types';
 import { getRewardCategories } from '@/lib/mock-data/rewards';
 
 const RewardsPage: React.FC = () => {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [wallet, setWallet] = useState<UserWallet | null>(null);
   const [rewards, setRewards] = useState<Reward[]>([]);
@@ -36,24 +38,24 @@ const RewardsPage: React.FC = () => {
   const loadRewardsData = async () => {
     try {
       setLoading(true);
-      
+
       // Load user and wallet data
       const userResponse = await userService.getCurrentUser();
       if (userResponse.success && userResponse.data) {
         setUser(userResponse.data);
-        
+
         const walletResponse = await walletService.getUserWallet(userResponse.data.id);
         if (walletResponse.success && walletResponse.data) {
           setWallet(walletResponse.data);
         }
       }
-      
+
       // Load rewards
       const rewardsResponse = await rewardService.getAllRewards();
       if (rewardsResponse.success && rewardsResponse.data) {
         setRewards(rewardsResponse.data);
       }
-      
+
       // Load categories
       const allCategories = ['All', ...getRewardCategories()];
       setCategories(allCategories);
@@ -91,14 +93,14 @@ const RewardsPage: React.FC = () => {
 
     try {
       setRedeeming(reward.id);
-      
+
       const form: RedeemRewardForm = {
         rewardId: reward.id,
         confirmPoints: reward.pointCost,
       };
-      
+
       const response = await rewardService.redeemReward(form);
-      
+
       if (response.success) {
         alert('Reward redeemed successfully! You will receive it shortly.');
         // Reload data to update wallet balance and stock
@@ -139,7 +141,23 @@ const RewardsPage: React.FC = () => {
 
   const handleNavigation = (itemId: string) => {
     setActiveNav(itemId);
-    console.log(`Navigate to: ${itemId}`);
+
+    switch (itemId) {
+      case 'home':
+        router.push('/dashboard/employee');
+        break;
+      case 'give':
+        router.push('/dashboard/give-coins');
+        break;
+      case 'rewards':
+        router.push('/dashboard/rewards');
+        break;
+      case 'profile':
+        router.push('/dashboard/wallet');
+        break;
+      default:
+        console.log(`Navigate to: ${itemId}`);
+    }
   };
 
   if (loading) {
@@ -156,25 +174,30 @@ const RewardsPage: React.FC = () => {
   return (
     <div className="max-w-sm mx-auto bg-white min-h-screen relative overflow-hidden">
       {/* Header */}
-      <Header
-        title="Rewards"
-        subtitle="Redeem your points"
-        leftIcon={<i className="fa-solid fa-arrow-left text-white text-lg"></i>}
-        onLeftIconClick={() => window.history.back()}
-        variant="gradient"
-      />
+      <div className="gradient-bg  text-white relative">
+        <Header
+          title="Rewards"
+          subtitle="Redeem your wallet points"
+          leftIcon={<i className="fa-solid fa-arrow-left text-white text-lg"></i>}
+          onLeftIconClick={() => window.history.back()}
+          variant="gradient"
+        />
 
-      {/* Points Balance */}
-      <div className="px-6 -mt-8 relative z-10 mb-6">
-        <Card variant="glass" padding="lg" className="text-white text-center">
-          <p className="text-sm text-white/80 mb-2">Available Points</p>
-          <div className="flex items-center justify-center gap-2">
-            <i className="fa-solid fa-coins text-yellow-300 text-xl"></i>
-            <span className="text-3xl font-bold">{wallet?.totalPoints?.toLocaleString() || '0'}</span>
-          </div>
-          <p className="text-xs text-white/60 mt-1">Ready to redeem</p>
-        </Card>
+        {/* Points Balance */}
+        <div className="px-6 -mt-8 relative z-10 mb-6 pb-4">
+          <Card variant="glass" padding="lg" className="text-white text-center">
+            <p className="text-sm text-white/80 mb-2">Available Points</p>
+            <div className="flex items-center justify-center gap-2">
+              <i className="fa-solid fa-coins text-yellow-300 text-xl"></i>
+              <span className="text-3xl font-bold">{wallet?.totalPoints?.toLocaleString() || '0'}</span>
+            </div>
+            <p className="text-xs text-white/60 mt-1">Ready to redeem</p>
+          </Card>
+        </div>
       </div>
+
+
+
 
       {/* Category Filter */}
       <div className="px-6 mb-4">
@@ -183,11 +206,10 @@ const RewardsPage: React.FC = () => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                selectedCategory === category
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${selectedCategory === category
+                ? 'bg-primary-600 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
             >
               {category}
             </button>
@@ -218,36 +240,35 @@ const RewardsPage: React.FC = () => {
                       <i className="fa-solid fa-gift text-2xl text-gray-400"></i>
                     )}
                   </div>
-                  
+
                   {/* Reward Details */}
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-semibold text-gray-800 text-sm leading-tight">
                         {reward.name}
                       </h3>
-                      <Badge 
+                      <Badge
                         variant={inStock ? 'success' : 'error'}
                         size="sm"
                       >
                         {inStock ? `${reward.stockQuantity} left` : 'Out of stock'}
                       </Badge>
                     </div>
-                    
+
                     <p className="text-xs text-gray-600 mb-3 line-clamp-2">
                       {reward.description}
                     </p>
-                    
+
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-1">
                         <i className="fa-solid fa-coins text-yellow-500 text-sm"></i>
-                        <span className={`text-sm font-bold ${
-                          canAfford ? 'text-primary-600' : 'text-red-500'
-                        }`}>
+                        <span className={`text-sm font-bold ${canAfford ? 'text-primary-600' : 'text-red-500'
+                          }`}>
                           {reward.pointCost.toLocaleString()}
                         </span>
                         <span className="text-xs text-gray-500">points</span>
                       </div>
-                      
+
                       <Button
                         size="sm"
                         variant={canRedeem ? 'primary' : 'secondary'}
@@ -255,9 +276,9 @@ const RewardsPage: React.FC = () => {
                         loading={redeeming === reward.id}
                         onClick={() => handleRedeemReward(reward)}
                       >
-                        {!canAfford ? 'Need more points' : 
-                         !inStock ? 'Out of stock' : 
-                         'Redeem'}
+                        {!canAfford ? 'Need more points' :
+                          !inStock ? 'Out of stock' :
+                            'Redeem'}
                       </Button>
                     </div>
                   </div>
@@ -265,13 +286,13 @@ const RewardsPage: React.FC = () => {
               </Card>
             );
           })}
-          
+
           {filteredRewards.length === 0 && (
             <Card className="text-center py-8">
               <i className="fa-solid fa-gift text-4xl text-gray-300 mb-4"></i>
               <h3 className="text-lg font-semibold text-gray-600 mb-2">No Rewards Available</h3>
               <p className="text-sm text-gray-500">
-                {selectedCategory === 'All' 
+                {selectedCategory === 'All'
                   ? 'No rewards are currently available'
                   : `No rewards available in ${selectedCategory} category`
                 }

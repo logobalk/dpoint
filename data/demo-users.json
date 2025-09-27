@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": "user_employee_001",
+      "email": "employee@dwallet.demo",
+      "name": "Demo Employee",
+      "role": "user",
+      "passwordHash": "$2b$12$c3OaQIPDYWG0DgfypBZ2OO0zmHuv0gAtlG2M3F6Pc7WK2nOx.Ftbu",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": true,
+      "department": "Engineering",
+      "avatar": "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg"
+    },
+    {
+      "id": "user_admin_001",
+      "email": "admin@dwallet.demo",
+      "name": "Demo Admin",
+      "role": "admin",
+      "passwordHash": "$2b$12$j5YYDTzHIjjzLw6eIhuMc.KBP8wFOnsWRgi5pqoTltQLZIBOKbgTq",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": true,
+      "department": "Administration",
+      "avatar": "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg"
+    }
+  ],
+  "lastUpdated": "2024-01-01T00:00:00.000Z"
+}

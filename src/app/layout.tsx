@@ -23,8 +23,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "D-Point - Peer Recognition Platform",
-  description: "A modern peer recognition platform for building positive corporate culture through appreciation and rewards",
+  title: "D-Wallet - Digital Wallet Platform",
+  description: "A modern digital wallet platform for secure transactions and digital currency management",
 };
 
 export default function RootLayout({

@@ -109,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({
                 'border-2 transition-colors',
                 variant === 'gradient' ? 'border-white/30' : 'border-gray-200'
               )}>
-                <AvatarImage src={avatarSrc} />
+                <AvatarImage src={avatarSrc || "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg"} />
                 <AvatarFallback>{avatarFallback || 'U'}</AvatarFallback>
               </Avatar>
             </button>

@@ -12,8 +12,14 @@ export default function DashboardPage() {
 
   // Redirect to login if user is not authenticated after loading
   useEffect(() => {
-    if (!isLoading && !user) {
-      router.push('/login')
+    if (!isLoading) {
+      if (!user) {
+        router.push('/login')
+      } else if (user.role === 'admin') {
+        router.push('/dashboard/admin')
+      } else {
+        router.push('/dashboard/employee')
+      }
     }
   }, [user, isLoading, router])
 
@@ -25,7 +31,7 @@ export default function DashboardPage() {
             <Icon name="spinner" className="text-white" size="xl" spin />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">Loading...</h3>
-          <p className="text-gray-600 text-sm">Please wait while we load your dashboard</p>
+          <p className="text-gray-600 text-sm">Please wait while we load your D-WALLET</p>
         </div>
       </div>
     )
@@ -39,45 +45,34 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen gradient-auth-bg">
       <Navbar />
-      
+
       {/* Main Dashboard Content */}
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-        
+
         {/* Welcome Section */}
         <section className="mb-8">
           <div className="text-center">
-            <h1 className="text-6xl font-bold gradient-text mb-4">
+            {/* <h1 className="text-6xl font-bold gradient-text mb-4">
               Hello World
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Welcome to your SCB Tech X dashboard, {user?.name || user?.email}!
-            </p>
+            </h1> */}
+            {/* <p className="text-xl text-gray-600 mb-8">
+              Welcome to D-WALLET, {user?.name || user?.email}!
+            </p> */}
           </div>
         </section>
 
         {/* Dashboard Cards */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          
+
           {/* Welcome Card */}
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                <Icon name="shield" className="text-white" size="lg" />
-              </div>
-              <span className="text-green-500 text-sm font-medium">Active</span>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Authentication</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Your authentication system is working perfectly!
+            <p className="text-xl text-gray-600 mb-8">
+              Welcome to D-WALLET, {user?.name || user?.email}!
             </p>
-            <div className="flex items-center text-xs text-gray-500">
-              <Icon name="check-circle" className="text-green-500 mr-1" size="sm" />
-              <span>JWT Authentication</span>
-            </div>
           </div>
 
           {/* Design System Card */}
-          <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
+          {/* <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
                 <Icon name="palette" className="text-white" size="lg" />
@@ -92,10 +87,10 @@ export default function DashboardPage() {
               <Icon name="code" className="text-blue-500 mr-1" size="sm" />
               <span>Tailwind + Custom Tokens</span>
             </div>
-          </div>
+          </div> */}
 
           {/* Next.js Card */}
-          <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
+          {/* <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
                 <Icon name="cog" className="text-white" size="lg" />
@@ -110,11 +105,11 @@ export default function DashboardPage() {
               <Icon name="check-circle" className="text-purple-500 mr-1" size="sm" />
               <span>App Router + TypeScript</span>
             </div>
-          </div>
+          </div> */}
         </section>
 
         {/* Getting Started Section */}
-        <section className="glass-card rounded-2xl p-8">
+        {/* <section className="glass-card rounded-2xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Getting Started</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -178,7 +173,7 @@ export default function DashboardPage() {
               </ul>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   )

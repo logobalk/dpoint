@@ -2,13 +2,11 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Icon } from '@/components/ui/Icon'
 import { useAuth } from '@/contexts/AuthContext'
-
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -16,7 +14,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  
+
   const { login } = useAuth()
   const router = useRouter()
 
@@ -40,7 +38,7 @@ export default function LoginPage() {
 
     try {
       const result = await login(email, password)
-      
+
       if (result.success) {
         router.push('/dashboard')
       } else {
@@ -54,9 +52,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex gradient-auth-bg">
+    <div className="min-h-screen flex bg-gray-50">
       {/* Left Side - Branding & Visual */}
-      <div className="hidden lg:flex lg:w-1/2 gradient-auth-brand relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 gradient-bg relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
 
         {/* Decorative Elements */}
@@ -69,47 +67,41 @@ export default function LoginPage() {
           {/* Logo - Centered */}
           <div className="text-center mb-8">
             <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-6">
-              <Image
-                src="/logo.png"
-                alt="SCB Tech X Logo"
-                width={48}
-                height={48}
-                className="rounded-lg"
-              />
+              <i className="fa-solid fa-wallet text-white text-3xl"></i>
             </div>
-            <h1 className="text-4xl font-bold">SCB Tech X</h1>
-            <p className="text-blue-100 mt-2">Web Starter Kit</p>
+            <h1 className="text-4xl font-bold">D-Wallet</h1>
+            <p className="text-white/80 mt-2">Digital Wallet Platform</p>
           </div>
 
           {/* Features List */}
           <div className="space-y-6 max-w-md">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                <Icon name="rocket" size="lg" />
+                <i className="fa-solid fa-heart text-white text-lg"></i>
               </div>
               <div>
-                <h3 className="font-semibold">Modern Architecture</h3>
-                <p className="text-blue-100 text-sm">Built with Next.js and TypeScript</p>
+                <h3 className="font-semibold">Digital Transfers</h3>
+                <p className="text-white/80 text-sm">Send digital currency to colleagues</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                <Icon name="palette" size="lg" />
+                <i className="fa-solid fa-gift text-white text-lg"></i>
               </div>
               <div>
-                <h3 className="font-semibold">Design System</h3>
-                <p className="text-blue-100 text-sm">Consistent UI components and tokens</p>
+                <h3 className="font-semibold">Reward System</h3>
+                <p className="text-white/80 text-sm">Redeem wallet points for amazing rewards</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                <Icon name="shield" size="lg" />
+                <i className="fa-solid fa-chart-line text-white text-lg"></i>
               </div>
               <div>
-                <h3 className="font-semibold">Secure Authentication</h3>
-                <p className="text-blue-100 text-sm">JWT-based authentication system</p>
+                <h3 className="font-semibold">Wallet Analytics</h3>
+                <p className="text-white/80 text-sm">Track transactions and wallet performance</p>
               </div>
             </div>
           </div>
@@ -122,25 +114,33 @@ export default function LoginPage() {
 
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
-            <div className="flex items-center justify-center mx-auto mb-4">
-              <Image
-                src="/logo.png"
-                alt="SCB Tech X Logo"
-                width={64}
-                height={64}
-                className="rounded-2xl"
-              />
+            <div className="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+              <i className="fa-solid fa-wallet text-white text-2xl"></i>
             </div>
-            <h1 className="text-2xl font-bold gradient-text">SCB Tech X</h1>
+            <h1 className="text-2xl font-bold text-gray-900">D-Wallet</h1>
+            <p className="text-gray-600 text-sm">Recognition Platform</p>
           </div>
 
           {/* Login Form */}
-          <div className="glass-card rounded-3xl p-8">
-            
+          <div className="bg-white card-shadow rounded-3xl p-8">
+
             {/* Form Header */}
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h2>
               <p className="text-gray-600">Sign in to your account</p>
+            </div>
+
+            {/* Demo Credentials */}
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+              <h3 className="text-sm font-semibold text-blue-800 mb-2">Demo Credentials</h3>
+              <div className="space-y-2 text-xs text-blue-700">
+                <div>
+                  <strong>Employee:</strong> employee@dwallet.demo / Employee123!
+                </div>
+                <div>
+                  <strong>Admin:</strong> admin@dwallet.demo / Admin123!
+                </div>
+              </div>
             </div>
 
             {/* Error Message */}

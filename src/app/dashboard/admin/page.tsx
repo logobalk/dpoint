@@ -1,23 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar';
-import { Badge } from '@/components/ui/Badge';
-import { Header } from '@/components/ui/Header';
-import { BottomNavigation, NavigationItem } from '@/components/ui/BottomNavigation';
-import { 
-  userService, 
-  analyticsService,
-  systemService 
+import { useRouter } from 'next/navigation';
+import {
+  userService,
+  analyticsService
 } from '@/lib/services/mockApiService';
-import { User, AnalyticsData, SystemSettings } from '@/lib/types';
+import { User, AnalyticsData } from '@/lib/types';
 
 const AdminDashboard: React.FC = () => {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
-  const [systemSettings, setSystemSettings] = useState<SystemSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeNav, setActiveNav] = useState('admin');
 
@@ -41,11 +35,7 @@ const AdminDashboard: React.FC = () => {
         setAnalytics(analyticsResponse.data);
       }
       
-      // Load system settings
-      const settingsResponse = await systemService.getSystemSettings();
-      if (settingsResponse.success && settingsResponse.data) {
-        setSystemSettings(settingsResponse.data);
-      }
+
     } catch (error) {
       console.error('Error loading admin data:', error);
     } finally {
@@ -53,32 +43,44 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const navigationItems: NavigationItem[] = [
-    {
-      id: 'admin',
-      label: 'Admin',
-      icon: <i className="fa-solid fa-chart-line"></i>,
-    },
-    {
-      id: 'users',
-      label: 'Users',
-      icon: <i className="fa-solid fa-users"></i>,
-    },
-    {
-      id: 'rewards',
-      label: 'Rewards',
-      icon: <i className="fa-solid fa-gift"></i>,
-    },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: <i className="fa-solid fa-cog"></i>,
-    },
-  ];
-
   const handleNavigation = (itemId: string) => {
     setActiveNav(itemId);
-    console.log(`Navigate to: ${itemId}`);
+
+    switch (itemId) {
+      case 'home':
+        router.push('/dashboard/admin');
+        break;
+      case 'give':
+        router.push('/dashboard/give-coins');
+        break;
+      case 'rewards':
+        router.push('/dashboard/rewards');
+        break;
+      case 'profile':
+        router.push('/dashboard/wallet');
+        break;
+      default:
+        console.log(`Navigate to: ${itemId}`);
+    }
+  };
+
+  const handleAddUser = () => {
+    // For demo, we'll show an alert since we don't have a user management page
+    alert('User Management feature - Coming soon in full version!');
+  };
+
+  const handleManageRewards = () => {
+    router.push('/dashboard/rewards');
+  };
+
+  const handleViewAnalytics = () => {
+    // For demo, we'll show an alert since we don't have a detailed analytics page
+    alert('Detailed Analytics feature - Coming soon in full version!');
+  };
+
+  const handleSystemSettings = () => {
+    // For demo, we'll show an alert since we don't have a settings page
+    alert('System Settings feature - Coming soon in full version!');
   };
 
   if (loading) {
@@ -95,175 +97,287 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="max-w-sm mx-auto bg-white min-h-screen relative overflow-hidden">
       {/* Header */}
-      <Header
-        title="Admin Dashboard"
-        subtitle="System Overview"
-        leftIcon={<i className="fa-solid fa-shield-halved text-white text-lg"></i>}
-        avatarSrc={user?.avatar}
-        avatarFallback={user?.name?.charAt(0) || 'A'}
-        onAvatarClick={() => console.log('Profile clicked')}
-        onNotificationClick={() => console.log('Notifications clicked')}
-      />
+      <div className="gradient-bg px-6 pt-12 pb-6 text-white relative">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+              <i className="fa-solid fa-wallet text-white text-lg"></i>
+            </div>
+            <div>
+              <h1 className="text-xl font-bold">D-Wallet Admin</h1>
+              <p className="text-sm text-white/80">Digital Wallet Control Center</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+              <i className="fa-solid fa-bell text-sm"></i>
+            </div>
+            <img
+              src={user?.avatar || "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg"}
+              className="w-8 h-8 rounded-full border-2 border-white/30"
+              alt="Profile"
+            />
+          </div>
+        </div>
 
-      {/* Key Metrics */}
-      <div className="px-6 -mt-8 relative z-10 mb-6">
-        <div className="grid grid-cols-2 gap-3">
-          <Card variant="glass" padding="md" className="text-white text-center">
-            <i className="fa-solid fa-users text-2xl text-white/80 mb-2"></i>
-            <p className="text-2xl font-bold">{analytics?.totalUsers || 0}</p>
-            <p className="text-xs text-white/80">Total Users</p>
-          </Card>
-          
-          <Card variant="glass" padding="md" className="text-white text-center">
-            <i className="fa-solid fa-coins text-2xl text-yellow-300 mb-2"></i>
-            <p className="text-2xl font-bold">{analytics?.totalCoinsGivenThisMonth?.toLocaleString() || 0}</p>
-            <p className="text-xs text-white/80">Coins This Month</p>
-          </Card>
+        {/* System Stats */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 mb-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center">
+              <p className="text-sm text-white/80 mb-1">Total Users</p>
+              <div className="flex items-center justify-center gap-2">
+                <i className="fa-solid fa-users text-white text-sm"></i>
+                <span className="text-xl font-bold">{analytics?.totalUsers || 247}</span>
+              </div>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-white/80 mb-1">Active Today</p>
+              <div className="flex items-center justify-center gap-2">
+                <i className="fa-solid fa-chart-line text-green-300 text-sm"></i>
+                <span className="text-xl font-bold">{analytics?.activeUsersToday || 89}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* System Status */}
-      <div className="px-6 mb-6">
-        <Card>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-800">System Status</h2>
-            <Badge variant={systemSettings?.maintenanceMode ? 'warning' : 'success'}>
-              {systemSettings?.maintenanceMode ? 'Maintenance' : 'Active'}
-            </Badge>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Active Users Today</span>
-              <span className="font-semibold">{analytics?.activeUsersToday || 0}</span>
+      {/* Quick Admin Actions */}
+      <div className="px-6 -mt-8 relative z-10 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <button
+            className="bg-white card-shadow rounded-2xl p-4 text-center hover:scale-105 transition-transform"
+            onClick={handleAddUser}
+          >
+            <div className="w-12 h-12 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+              <i className="fa-solid fa-user-plus text-white text-lg"></i>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Participation Rate</span>
-              <span className="font-semibold">{((analytics?.participationRate || 0) * 100).toFixed(1)}%</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Rewards Redeemed</span>
-              <span className="font-semibold">{analytics?.totalRewardsRedeemedThisMonth || 0}</span>
-            </div>
-          </div>
-        </Card>
-      </div>
+            <h3 className="font-semibold text-gray-800 mb-1">Add User</h3>
+            <p className="text-xs text-gray-500">New employee</p>
+          </button>
 
-      {/* Quick Actions */}
-      <div className="px-6 mb-6">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-2 gap-3">
-          <Card hover="lift" className="text-center cursor-pointer">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
-              <i className="fa-solid fa-users text-white text-lg"></i>
-            </div>
-            <h3 className="font-semibold text-gray-800 mb-1">Manage Users</h3>
-            <p className="text-xs text-gray-500">Add, edit, or remove users</p>
-          </Card>
-          
-          <Card hover="lift" className="text-center cursor-pointer">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
+          <button
+            className="bg-white card-shadow rounded-2xl p-4 text-center hover:scale-105 transition-transform"
+            onClick={handleManageRewards}
+          >
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
               <i className="fa-solid fa-gift text-white text-lg"></i>
             </div>
-            <h3 className="font-semibold text-gray-800 mb-1">Manage Rewards</h3>
-            <p className="text-xs text-gray-500">Add or update rewards</p>
-          </Card>
-          
-          <Card hover="lift" className="text-center cursor-pointer">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
-              <i className="fa-solid fa-chart-bar text-white text-lg"></i>
+            <h3 className="font-semibold text-gray-800 mb-1">Rewards</h3>
+            <p className="text-xs text-gray-500">Manage catalog</p>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            className="bg-white card-shadow rounded-2xl p-4 text-center hover:scale-105 transition-transform"
+            onClick={handleViewAnalytics}
+          >
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
+              <i className="fa-solid fa-chart-pie text-white text-lg"></i>
             </div>
             <h3 className="font-semibold text-gray-800 mb-1">Analytics</h3>
-            <p className="text-xs text-gray-500">View detailed reports</p>
-          </Card>
-          
-          <Card hover="lift" className="text-center cursor-pointer">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-3">
+            <p className="text-xs text-gray-500">View reports</p>
+          </button>
+
+          <button
+            className="bg-white card-shadow rounded-2xl p-4 text-center hover:scale-105 transition-transform"
+            onClick={handleSystemSettings}
+          >
+            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-3">
               <i className="fa-solid fa-cog text-white text-lg"></i>
             </div>
             <h3 className="font-semibold text-gray-800 mb-1">Settings</h3>
-            <p className="text-xs text-gray-500">System configuration</p>
-          </Card>
+            <p className="text-xs text-gray-500">System config</p>
+          </button>
         </div>
       </div>
 
-      {/* Top Contributors */}
+      {/* Analytics Overview */}
       <div className="px-6 mb-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-gray-800">Top Contributors</h2>
-          <Button variant="ghost" size="sm">View All</Button>
+          <h2 className="text-lg font-bold text-gray-800">Analytics Overview</h2>
+          <select className="text-primary-600 text-sm font-medium bg-transparent border-none outline-none">
+            <option>This Month</option>
+            <option>Last Month</option>
+            <option>This Year</option>
+          </select>
         </div>
-        
-        <Card>
-          <div className="space-y-3">
-            {analytics?.topGivers?.slice(0, 3).map((giver, index) => (
-              <div key={giver.user.id} className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs text-white font-bold ${
-                    index === 0 ? 'bg-yellow-500' : 
-                    index === 1 ? 'bg-gray-400' : 
-                    'bg-orange-500'
-                  }`}>
-                    {index + 1}
-                  </span>
-                  <Avatar size="sm">
-                    <AvatarImage src={giver.user.avatar} />
-                    <AvatarFallback>{giver.user.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-800">{giver.user.name}</p>
-                  <p className="text-xs text-gray-500">{giver.user.department}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-primary-600">{giver.coinsGiven}</p>
-                  <p className="text-xs text-gray-400">given</p>
-                </div>
+
+        {/* Key Metrics */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="bg-white card-shadow rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <i className="fa-solid fa-coins text-green-600 text-sm"></i>
               </div>
-            ))}
+              <div>
+                <p className="text-xs text-gray-500">Coins Given</p>
+                <p className="text-lg font-bold text-gray-800">{analytics?.totalCoinsGivenThisMonth?.toLocaleString() || '1,847'}</p>
+              </div>
+            </div>
           </div>
-        </Card>
+
+          <div className="bg-white card-shadow rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                <i className="fa-solid fa-trophy text-purple-600 text-sm"></i>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">Rewards Claimed</p>
+                <p className="text-lg font-bold text-gray-800">{analytics?.totalRewardsRedeemedThisMonth || '156'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Department Overview */}
+      {/* Recent Admin Activities */}
+      <div className="px-6 mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-bold text-gray-800">Recent Activities</h2>
+          <button className="text-primary-600 text-sm font-medium">View All</button>
+        </div>
+
+        <div className="space-y-3">
+          <div className="bg-white card-shadow rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <i className="fa-solid fa-user-plus text-blue-600 text-sm"></i>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-800">New user added</p>
+                <p className="text-xs text-gray-500">Jessica Martinez joined</p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-gray-400">1h ago</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white card-shadow rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                <i className="fa-solid fa-gift text-orange-600 text-sm"></i>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-800">Reward redeemed</p>
+                <p className="text-xs text-gray-500">Coffee voucher by Alex</p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-gray-400">3h ago</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white card-shadow rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <i className="fa-solid fa-cog text-green-600 text-sm"></i>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-800">Settings updated</p>
+                <p className="text-xs text-gray-500">Monthly coin allocation changed</p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-gray-400">1d ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Top Performers */}
       <div className="px-6 mb-24">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-gray-800">Department Overview</h2>
-          <Button variant="ghost" size="sm">View Details</Button>
+          <h2 className="text-lg font-bold text-gray-800">Top Performers</h2>
+          <button className="text-primary-600 text-sm font-medium">Full Report</button>
         </div>
-        
-        <div className="space-y-3">
-          {analytics?.departmentStats?.map((dept) => (
-            <Card key={dept.department}>
-              <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="font-semibold text-gray-800">{dept.department}</h3>
-                  <p className="text-sm text-gray-500">{dept.userCount} users</p>
-                </div>
-                <div className="text-right">
-                  <div className="flex items-center gap-4">
-                    <div className="text-center">
-                      <p className="text-sm font-bold text-blue-600">{dept.coinsGiven}</p>
-                      <p className="text-xs text-gray-400">Given</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm font-bold text-green-600">{dept.coinsReceived}</p>
-                      <p className="text-xs text-gray-400">Received</p>
-                    </div>
+
+        <div className="bg-white card-shadow rounded-2xl p-4">
+          <div className="space-y-3">
+            {analytics?.topGivers?.slice(0, 3).map((giver, index) => {
+              let rankBgColor = 'bg-orange-500';
+              if (index === 0) {
+                rankBgColor = 'bg-yellow-500';
+              } else if (index === 1) {
+                rankBgColor = 'bg-gray-400';
+              }
+
+              return (
+                <div key={giver.user.id} className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs text-white font-bold ${rankBgColor}`}>
+                      {index + 1}
+                    </span>
+                    <img
+                      src={giver.user.avatar || "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg"}
+                      className="w-8 h-8 rounded-full"
+                      alt={giver.user.name}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-800">{giver.user.name}</p>
+                    <p className="text-xs text-gray-500">Most coins given: {giver.coinsGiven}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-primary-600">{giver.coinsGiven}</p>
+                    <p className="text-xs text-gray-400">total pts</p>
                   </div>
                 </div>
+              );
+            }) || (
+              <div className="text-center py-4">
+                <p className="text-gray-500 text-sm">No performance data available</p>
               </div>
-            </Card>
-          ))}
+            )}
+          </div>
         </div>
       </div>
 
       {/* Bottom Navigation */}
-      <BottomNavigation
-        items={navigationItems}
-        activeItem={activeNav}
-        onItemClick={handleNavigation}
-      />
+      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
+        <div className="grid grid-cols-4 py-2">
+          <button
+            className={`flex flex-col items-center py-3 px-2 ${activeNav === 'admin' ? 'text-primary-600' : 'text-gray-400 hover:text-primary-600'}`}
+            onClick={() => handleNavigation('admin')}
+          >
+            <i className="fa-solid fa-chart-line text-lg mb-1"></i>
+            <span className="text-xs font-medium">Dashboard</span>
+          </button>
+
+          <button
+            className={`flex flex-col items-center py-3 px-2 ${activeNav === 'users' ? 'text-primary-600' : 'text-gray-400 hover:text-primary-600'}`}
+            onClick={() => handleNavigation('users')}
+          >
+            <i className="fa-solid fa-users text-lg mb-1"></i>
+            <span className="text-xs font-medium">Users</span>
+          </button>
+
+          <button
+            className={`flex flex-col items-center py-3 px-2 ${activeNav === 'rewards' ? 'text-primary-600' : 'text-gray-400 hover:text-primary-600'}`}
+            onClick={() => handleNavigation('rewards')}
+          >
+            <i className="fa-solid fa-gift text-lg mb-1"></i>
+            <span className="text-xs font-medium">Rewards</span>
+          </button>
+
+          <button
+            className={`flex flex-col items-center py-3 px-2 ${activeNav === 'settings' ? 'text-primary-600' : 'text-gray-400 hover:text-primary-600'}`}
+            onClick={() => handleNavigation('settings')}
+          >
+            <i className="fa-solid fa-cog text-lg mb-1"></i>
+            <span className="text-xs font-medium">Settings</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Floating Action Button */}
+      <button
+        className="fixed bottom-20 right-6 w-14 h-14 gradient-bg rounded-full shadow-lg flex items-center justify-center text-white hover:scale-110 transition-transform z-20"
+        onClick={() => console.log('Open Quick Admin Actions')}
+      >
+        <i className="fa-solid fa-plus text-xl"></i>
+      </button>
     </div>
   );
 };
